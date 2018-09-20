@@ -1,27 +1,27 @@
-export function getPosts() {
+export function getPosts(posts) {
     return {
-        type: 'GET_POSTS'
+        type: 'GET_POSTS',
+        posts: posts
     }
 }
 
-export function post(postId, i) {
+export function getSinglePost(post) {
     return {
         type: 'GET_POST',
-        postId,
-        i
+        singlePost: post
     }
 }
 
-export function filterPosts(e) {
+export function getPostUser(user) {
     return {
-        type: 'FILTER_POSTS',
-        searchString: e.target.value
+        type: 'GET_USER',
+        postUser: user
     }
 }
 
-
-export function getComments() {
+export function getComments(comments) {
     return {
-        type: 'GET_COMMENTS'
+        type: 'GET_COMMENTS',
+        comments 
     }
 }

@@ -3,16 +3,12 @@ import { Link } from 'react-router-dom';
 
 class PostGrid extends React.Component {
 
-    state = {
-        posts: []
-    }
-
-    componentWillMount() {
-        this.props.posts.then(response => this.setState({posts: response}));
-    }
-
-    componentWillReceiveProps() {
-        this.props.posts.then(response => this.setState({posts: response}));
+    componentDidMount = () => {
+        fetch('https://jsonplaceholder.typicode.com/posts')
+        .then(response => response.json())
+        .then(json => {
+            this.props.getPosts(json)
+        })  
     }
 
     renderPost = (post) => {
@@ -33,12 +29,24 @@ class PostGrid extends React.Component {
         </div>
     )}
 
+    filterPosts = (e) => {
+        e.persist();
+        fetch('https://jsonplaceholder.typicode.com/posts')
+        .then(response => response.json())
+        .then(json => {
+                this.props.getPosts(json.filter(post => post.title.includes(e.target.value) || post.body.includes(e.target.value)))
+            } 
+        )
+        .catch(err => console.log(err))
+    }
+
     render() {
-        const { posts } = this.state;
+        const posts = this.props.posts.posts?this.props.posts.posts:[];
+        
         return (
             <div className="container">
                 <div className="input-group mb-3">
-                    <input type="text" className="form-control" placeholder="Search post" aria-label="Search post" aria-describedby="button-addon2" onKeyUp={this.props.filterPosts}/>
+                    <input type="text" className="form-control" placeholder="Search post" aria-label="Search post" aria-describedby="button-addon2" onKeyUp={this.filterPosts}/>
                 </div>
                 <div className="row">
                     {posts.map(post => this.renderPost(post))}

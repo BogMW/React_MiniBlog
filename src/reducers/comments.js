@@ -1,16 +1,10 @@
-const defaultState = getComments();
-
-async function getComments(){
-    return await fetch('https://jsonplaceholder.typicode.com/comments')
-    .then(response => response.json())
-    .then(json => json)
-}
-
-function comments(state = defaultState, action) {
+function comments(state = [], action) {
     switch(action.type) {
         case 'GET_COMMENTS':
-            console.log('Get all comments');
-            return state; 
+        return {
+            ...state,
+            comments: action.comments
+        }
         default: 
             return state; 
     }
